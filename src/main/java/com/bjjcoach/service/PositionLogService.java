@@ -5,6 +5,8 @@ import com.bjjcoach.dto.PositionLogRequest;
 import com.bjjcoach.dto.PositionLogResponse;
 import com.bjjcoach.entity.PositionLog;
 import com.bjjcoach.entity.Session;
+import com.bjjcoach.exception.ResourceNotFoundException;
+import com.bjjcoach.exception.UnauthorizedException;
 import com.bjjcoach.repository.PositionLogRepository;
 import com.bjjcoach.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +29,10 @@ public class PositionLogService {
                                                      PositionLogRequest req,
                                                      String email){
         Session session = sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new RuntimeException("Session not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Session not found with ID"+sessionId));
 
         if(!session.getUser().getEmail().equals(email)){
-            throw new RuntimeException("Unauthorised");
+            throw new UnauthorizedException("You do not have access to this session");
         }
 
         PositionLog log = PositionLog.builder()

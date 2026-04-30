@@ -1,6 +1,7 @@
 package com.bjjcoach.service;
 
 import com.bjjcoach.dto.*;
+import com.bjjcoach.exception.DuplicateResourceException;
 import com.bjjcoach.model.User;
 import com.bjjcoach.repository.UserRepository;
 import com.bjjcoach.security.JwtUtil;
@@ -22,7 +23,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest req) {
         if (userRepository.existsByEmail(req.getEmail())) {
-            throw new RuntimeException("Email already in use");
+            throw new DuplicateResourceException("Email already in use" + req.getEmail());
         }
 
         User user = User.builder()

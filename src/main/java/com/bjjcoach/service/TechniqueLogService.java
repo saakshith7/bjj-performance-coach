@@ -4,6 +4,8 @@ import com.bjjcoach.dto.TechniqueLogRequest;
 import com.bjjcoach.dto.TechniqueLogResponse;
 import com.bjjcoach.entity.Session;
 import com.bjjcoach.entity.TechniqueLog;
+import com.bjjcoach.exception.ResourceNotFoundException;
+import com.bjjcoach.exception.UnauthorizedException;
 import com.bjjcoach.repository.SessionRepository;
 import com.bjjcoach.repository.TechniqueLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +27,10 @@ public class TechniqueLogService {
                                              TechniqueLogRequest req,
                                              String email) {
         Session session = sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new RuntimeException("Session not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Session not found with this ID:"+sessionId));
 
         if (!session.getUser().getEmail().equals(email)) {
-            throw new RuntimeException("Unauthorized");
+            throw new UnauthorizedException("You do not have access to this session");
         }
 
         TechniqueLog log = TechniqueLog.builder()

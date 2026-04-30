@@ -3,6 +3,8 @@ package com.bjjcoach.service;
 import com.bjjcoach.dto.SessionRequest;
 import com.bjjcoach.dto.SessionResponse;
 import com.bjjcoach.entity.Session;
+import com.bjjcoach.exception.ResourceNotFoundException;
+import com.bjjcoach.exception.UnauthorizedException;
 import com.bjjcoach.model.User;
 import com.bjjcoach.repository.SessionRepository;
 import com.bjjcoach.repository.UserRepository;
@@ -23,7 +25,7 @@ public class SessionService {
 
     public SessionResponse createSession(SessionRequest req,String email){
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: "+ email));
 
         Session session = Session.builder()
                 .user(user)
@@ -41,7 +43,7 @@ public class SessionService {
 
     public List<SessionResponse> getMySessions(String email){
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email:"+ email));
 
         return sessionRepository
                 .findByUserIdOrderBySessionDateDesc(user.getId())
@@ -52,10 +54,10 @@ public class SessionService {
 
     public SessionResponse getSessionIDBy(String sessionId,String email){
         Session session = sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new RuntimeException("Session not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Session not found with ID:"+ sessionId));
 
         if(!session.getUser().getEmail().equals(email)){
-            throw new RuntimeException("unauthorized");
+            throw new UnauthorizedException("You do not have access to this session");
         }
 
         return toResponse(session);
