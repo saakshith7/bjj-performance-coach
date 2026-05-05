@@ -23,7 +23,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest req) {
         if (userRepository.existsByEmail(req.getEmail())) {
-            throw new DuplicateResourceException("Email already in use" + req.getEmail());
+            throw new DuplicateResourceException("Email already in use :" + req.getEmail());
         }
 
         User user = User.builder()
