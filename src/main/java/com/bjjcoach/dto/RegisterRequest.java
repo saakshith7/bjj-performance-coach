@@ -9,7 +9,7 @@ public class RegisterRequest {
     @Email @NotBlank private String email;
     @NotBlank @Size(min = 6) private String password;
     private String belt = "white";
-    private Double weightKg;
+    private java.math.BigDecimal weightKg;
     private Integer age;
     private Integer trainingDaysPerWeek = 3;
     private String fitnessLevel = "beginner";

@@ -31,7 +31,7 @@ public class AuthService {
                 .email(req.getEmail())
                 .passwordHash(passwordEncoder.encode(req.getPassword()))
                 .belt(req.getBelt())
-                .weightKg(BigDecimal.valueOf(req.getWeightKg()))
+                .weightKg(req.getWeightKg())
                 .age(req.getAge())
                 .trainingDaysPerWeek(req.getTrainingDaysPerWeek())
                 .fitnessLevel(req.getFitnessLevel())

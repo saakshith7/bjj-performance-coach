@@ -62,7 +62,7 @@ public class WeaknessAnalyzerService {
 
         // Weak areas only (severity HIGH or MEDIUM)
         List<PositionStatResponse> weakPositions = positionStats.stream()
-                .filter(p -> p.getSeverity().equals("High") || p.getSeverity().equals("MEDIUM"))
+                .filter(p -> p.getSeverity().equals("HIGH") || p.getSeverity().equals("MEDIUM"))
                 .collect(Collectors.toList());
 
         List<TechniqueStatResponse> weakTechniques = techniqueStats.stream()

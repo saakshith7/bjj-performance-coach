@@ -96,7 +96,7 @@ public class SCProgramGeneratorService {
         // Side control escape weakness
         WEAKNESS_EXERCISE_MAP.put("side_control", List.of(
                 ExerciseDTO.builder()
-                        .name("Pallof Press")
+                        .name("fall of Press")
                         .sets(3).reps("12 each side").rest("45 seconds")
                         .targetArea("Core anti-rotation for framing under side control")
                         .difficulty("intermediate").build(),
@@ -158,7 +158,7 @@ public class SCProgramGeneratorService {
                         .targetArea("Grip and lat strength for breaking posture in armbar")
                         .difficulty("intermediate").build(),
                 ExerciseDTO.builder()
-                        .name("Lat Pulldown")
+                        .name("Lat Pull down")
                         .sets(4).reps("10").rest("60 seconds")
                         .targetArea("Lat strength for pulling arm across body to finish armbar")
                         .difficulty("beginner").build()
@@ -233,7 +233,7 @@ public class SCProgramGeneratorService {
                         .targetArea("Aerobic base — ability to maintain performance in later rounds")
                         .difficulty("beginner").build(),
                 ExerciseDTO.builder()
-                        .name("HIIT Intervals (30s on / 30s off)")
+                        .name("HIT Intervals (30s on / 30s off)")
                         .sets(8).reps("30 seconds").rest("30 seconds")
                         .targetArea("Anaerobic capacity for explosive scrambles")
                         .difficulty("intermediate").build()
@@ -403,7 +403,7 @@ public class SCProgramGeneratorService {
                 .collect(Collectors.toMap(
                         ExerciseDTO::getName,
                         e -> e,
-                        (exisiting, duplicate) -> exisiting,
+                        (existing, duplicate) -> existing,
                         LinkedHashMap::new
                 ))
                 .values()
@@ -431,7 +431,7 @@ public class SCProgramGeneratorService {
                 : "Submission Finishing Strength";
 
         schedule.add(DayProgramDTO.builder()
-                .day("wednesday")
+                .day("Wednesday")
                 .focus(wednesdayFocus)
                 .exercises(unique.subList(
                         Math.min(third, total),
@@ -454,7 +454,7 @@ public class SCProgramGeneratorService {
         }
 
         schedule.add(DayProgramDTO.builder()
-                .day("friday")
+                .day("Friday")
                 .focus(report.isCardioFlag()
                         ? "Cardio and Conditioning"
                         : "Explosiveness and Accessory Work")
