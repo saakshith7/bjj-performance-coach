@@ -1,0 +1,44 @@
+services:
+  #MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: bjj-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bjj_coach
+      MYSQL_USER: bjjuser
+      MYSQL_PASSWORD: bjjpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost","-u","root","-prootpassword"]
+      timeout: 20s
+      retries: 10
+      interval: 5s
+      start_period: 30s
+
+  #Spring Boot Application
+  app:
+    build: .
+    container_name: bjj-app
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bjj_coach?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: bjjuser
+      SPRING_DATASOURCE_PASSWORD: bjjpassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      JWT_SECRET: bjjcoach-super-secret-key-change-this-in-production-2024
+      JWT_EXPIRATION: 86400000
+    depends_on:
+       mysql:
+          condition: service_healthy
+volumes:
+  mysql-data:
+
+
